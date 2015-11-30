@@ -5,6 +5,21 @@ import (
 	"fmt"
 )
 
+const machinePath = "v0/machines"
+
+type MachinesService interface {
+	List(*ListOptions) ([]Machine, *Response, error)
+	Get(string) (*Machine, *Response, error)
+	Create(*MachineCreateRequest) (*Machine, *Response, error)
+	Delete(string) (*Response, error)
+}
+
+type MachinesServiceOp struct {
+	client *Client
+}
+
+var _ MachinesService = &MachinesServiceOp{}
+
 type Machine struct {
 	Id            string                `json:"id,omitempty"`
 	Name          string                `json:"name,omitempty"`
@@ -44,4 +59,28 @@ type MachineState struct {
 type MachineAddress struct {
 	Address            string `json:"address,omitempty"`
 	MachineAddressType string `json:"machineaddresstype,omitempty"`
+}
+
+type MachineCreateRequest struct {
+	Machine *Machine
+}
+
+func (s *MachinesServiceOp) List(opt *ListOptions) ([]Machine, *Response, error) {
+	path := machinePath
+	path, err := addOptions(path, opt)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest("GET", path, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	machines := new(machinesRoot)
+	resp, err := s.client.Do(req, machines)
+	if err != nil {
+		return nil, nil, err
+	}
+	return machines, resp, err
 }
