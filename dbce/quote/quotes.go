@@ -37,3 +37,7 @@ type Interval struct {
 	Start string `json:"start,omitempty"`
 	End   string `json:"end,omitempty"`
 }
+
+type AcceptQuoteRequest struct {
+	Id string `json:"id,omitempty"`
+}
