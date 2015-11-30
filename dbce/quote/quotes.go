@@ -8,10 +8,10 @@ import (
 
 // FixedQuote represents the individual fixed quotes returned by the DBCE API.
 type FixedQuote struct {
-	Id           string                `json:"id,omitempty"`
-	Platform     *Platform             `json:"platform,omitempty"`
-	HourlyPrices *HourlyPricesQuantity `json:"hourlyPrices,omitempty"`
-	TotalPrice   float32               `json:"totalPrice,omitempty"`
+	Id           string      `json:"id,omitempty"`
+	Platform     *Platform   `json:"platform,omitempty"`
+	HourlyPrices *Quantities `json:"hourlyPrices,omitempty"`
+	TotalPrice   float32     `json:"totalPrice,omitempty"`
 }
 
 // Fairly simple for the moment, matching the api.
@@ -20,7 +20,7 @@ type Platform struct {
 }
 
 // Same struct for both HourlyPrices and Quantities.
-type HourlyPricesQuantity struct {
+type Quantities struct {
 	Compute float32 `json:"compute,omitempty"`
 	Storage float32 `json:"storage,omitempty"`
 	Memory  float32 `json:"memory,omitempty"`
@@ -28,9 +28,9 @@ type HourlyPricesQuantity struct {
 
 // The request struct to be sent for a quote request
 type FixedQuoteRequest struct {
-	Interval   *Interval             `json:"interval,omitempty"`
-	Quantities *HourlyPricesQuantity `json:"quantities,omitempty"`
-	OsTypes    []string              `json:"ostypes,omitempty"`
+	Interval   *Interval   `json:"interval,omitempty"`
+	Quantities *Quantities `json:"quantities,omitempty"`
+	OsTypes    []string    `json:"ostypes,omitempty"`
 }
 
 type Interval struct {
